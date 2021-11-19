@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov 18 19:49:51 2021
+
+@author: manuzinha
+"""
+
+import numpy as np
+import operator
+
+#Questão 1
+
+n=0
+for i in range (1,5000001):
+    a = i%49 #Verificando se é múltiplo de 49
+    b = i%37 #Verificando se é múltiplo de 37
+    c = i%2 #Verificando se é múltiplo de 2
+    if (a==0 and b==0 and c==0): #Se as 3 condições forem atendidas
+        n+=1
+print(f"Questão 1:\nExistem {n} números pares, múltiplos de 49 e múltiplos de 37 no intervalo de 1 a 5000000")
+
+
+
+
+# Questão 2
+
+#Primeiro, criando o vetor
+vetor = [0]*10
+i = 0
+a=1
+while i<10:
+    if (i>0):
+        a=1
+        for n in range (1,i+1):
+            a=a*n #Calculando i!
+   
+    vetor[i] = (3**i)+(7*a) #Inserendo o elemento na posição par
+    
+    i+=1 #Passando para i ímpar
+    
+    vetor[i] = (2**i)+(4*np.log(i)) #Inserendo o elemento na posição ímpar
+    
+    i+=1 #Voltando para i par
+    
+
+#Agora, encontrando a posição do maior elemento e fazendo a soma dos elementos
+a=0
+soma=0
+for i in range (0,10):
+    b = vetor[i]
+    soma+=b
+    if (b>a):
+        a=b
+        p=i
+        
+
+#Por fim, fazendo a média dos elementos com 2 casas decimais
+media = soma/10
+media2 = round(media,2)
+
+print(f"\n\nQuestão2:\nO vetor criado é: {vetor}")
+print(f"O maior elemento deste vetor é {a} e ele se encontra na posição {p+1} (ou seja, é o elemento que se encontra em vetor[{p}])")
+print(f"E a média dos elementos deste vetor (arredendado até 2 casas decimais) é {media2}")
+
+
+
+
+#Questão 3
+print("\n\nQuestão 3:")
+
+#Primeiro, criando o dicionário
+alunos = 5 #quantidade de alunos pedida
+notas = dict()
+for i in range (0,alunos):
+    nome=input(f"Nome do aluno {i+1} : ")
+    nota = float(input(f"Nota do aluno {i+1} : "))
+    notas[nome] = nota
+print(f"\n\nAs notas Recebidas foram : {notas}")
+
+#Agora, encontrando o aluno com a maior nota e a respectiva nota
+r = True
+notas_max = [] #Lista para colocar todos os alunos com a maior nota
+notas_copia = notas #Cópia para não alteraro dicionário original
+while r==True: 
+    aluno_nota_max = max(notas.items(), key=operator.itemgetter(1))[0] #Aluno com a maior nota
+    nota_max = notas[aluno_nota_max] #Maior nota
+    notas_max.append(aluno_nota_max) #Inserindo o aluno a lista
+    notas_copia.pop(aluno_nota_max) #Retirando o aluno da cópia do dicionário
+    r = nota_max in notas_copia.values() #Verificando se ainda tem outro aluno com a mesma nota no dicionário
+    
+q = len(notas_max) #Quantidade de alunos com a maior nota
+
+print(f"\nA maior nota da turma foi {nota_max} e o(s) aluno(s) com essa nota é(são):\n")
+
+for i in range (0,q):
+    print(notas_max[i])
